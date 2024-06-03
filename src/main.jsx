@@ -8,6 +8,7 @@ import Foreground from "./components/Foreground.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Additem from "./components/AddItem/Additem.jsx";
 import Heroinitial from "./components/Heroinitial.jsx";
+import { AppProvider } from "../src/context/context";
 
 const router = createBrowserRouter([
   {
@@ -21,19 +22,29 @@ const router = createBrowserRouter([
       {
         path: "foreground",
         element: <Foreground />,
+        children: [
+          {
+            path: "additem",
+            element: <Additem />,
+          },
+        ],
       },
     ],
   },
-  {
-    path: "/foreground",
-    element: <Foreground />,
-    children: [
-      {
-        path: "additem",
-        element: <Additem />,
-      },
-    ],
-  },
+  // {
+  //   path: "/foreground",
+  //   element: <Foreground />,
+  //   children: [
+  //     {
+  //       path: "/foreground",
+  //       element: <Heroinitial />,
+  //     },
+  //     {
+  //       path: "additem",
+  //       element: <Additem />,
+  //     },
+  //   ],
+  // },
   // {
   //   path:"/foreground",
   //   element:[<Foreground/>],
@@ -48,14 +59,18 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Auth0Provider
-      domain="dev-57eoqp4kf3a4vte5.us.auth0.com"
-      clientId="T83uy7ueXsGJQWBvnYtRykxUYHoZaRi8"
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    >
-      <RouterProvider router={router} />
-    </Auth0Provider>
+    <AppProvider>
+      <Auth0Provider
+        domain="dev-57eoqp4kf3a4vte5.us.auth0.com"
+        clientId="T83uy7ueXsGJQWBvnYtRykxUYHoZaRi8"
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+        }}
+        useRefreshTokens
+        cacheLocation="localstorage"
+      >
+        <RouterProvider router={router} />
+      </Auth0Provider>
+    </AppProvider>
   </React.StrictMode>
 );
