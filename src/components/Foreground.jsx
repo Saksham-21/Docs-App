@@ -41,7 +41,7 @@ function Foreground() {
     // }
     // if(isLoading==false) {getUserMetadata();}
     if (!isLoading && isAuthenticated) {
-      console.log("Foreground component re-rendered");
+      // console.log("Foreground component re-rendered");
       const fetchFiles = async () => {
         const files = await listFilesForEmail(user.email);
         setFiles(files);
@@ -54,7 +54,7 @@ function Foreground() {
   const [showAddItem, setShowAddItem] = useState(false);
 
   const handleAddItemClick = () => {
-    console.log("clicked");
+    // console.log("clicked");
     setShowAddItem((pre) => !pre);
     setTimeout(() => {
       if (showAddItem) {

@@ -28,14 +28,14 @@ function Additem({ reference, setShowAddItem }) {
     if (file && email) {
       try {
         const downloadURL = await uploadFileToFirebaseStorage(email, file);
-        console.log("File uploaded successfully. File URL:", downloadURL);
+        // console.log("File uploaded successfully. File URL:", downloadURL);
         setReloadKey(prevKey => prevKey + 1);
         navigate('/foreground');
       } catch (error) {
-        console.error("Error uploading file:", error);
+        // console.error("Error uploading file:", error);
       }
     } else {
-      console.error("Email and file are required");
+      // console.error("Email and file are required");
     }
     
 

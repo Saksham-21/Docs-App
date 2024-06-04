@@ -13,12 +13,12 @@ function Cards({ data, reference }) {
   const { setReloadKey } = useAppContext(); 
   const handleDeleteClick = async (namee) => {
     try {
-      console.log("Deleting file:", namee);
+      // console.log("Deleting file:", namee);
       await deleteFileFromStorage(namee,user.email);
       setReloadKey(prevKey => prevKey + 1);
-      console.log("File deleted successfully");
+      // console.log("File deleted successfully");
     } catch (error) {
-      console.error("Error deleting file:", error);
+      // console.error("Error deleting file:", error);
     }
   }
   return (
