@@ -7,41 +7,17 @@ import { useAppContext } from "../context/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { listFilesForEmail } from "../firebasesetup/setup";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function Foreground() {
-  const { user, isAuthenticated, isLoading ,getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, isLoading  } = useAuth0();
   const ref = useRef(null);
   const [files, setFiles] = useState([]);
   const { reloadKey } = useAppContext();
   const navigate = useNavigate();
-  // const [userMetadata, setUserMetadata] = useState(null);
+
   useEffect(() => {
-    // const getUserMetadata = async () => {
-    //   const domain = "dev-rs368k5fp261f7yj.us.auth0.com";
-    //   try {
-    //     const accessToken = await getAccessTokenSilently({
-    //       audience: `https://${domain}/api/v2/`,
-    //       scope: "read:current_user",
-    //     });
-  
-    //     const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
-  
-    //     const metadataResponse = await fetch(userDetailsByIdUrl, {
-    //       headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //       },
-    //     });
-  
-    //     const { user_metadata } = await metadataResponse.json();
-  
-    //     setUserMetadata(user_metadata);
-    //   }catch (e) {
-    //     console.log(e.message);
-    //   }
-    // }
-    // if(isLoading==false) {getUserMetadata();}
     if (!isLoading && isAuthenticated) {
-      // console.log("Foreground component re-rendered");
       const fetchFiles = async () => {
         const files = await listFilesForEmail(user.email);
         setFiles(files);
@@ -53,8 +29,18 @@ function Foreground() {
 
   const [showAddItem, setShowAddItem] = useState(false);
 
-  const handleAddItemClick = () => {
+  const handleAddItemClick = async () => {
     // console.log("clicked");
+
+    // try {
+    //   const response = await axios.post('http://localhost:5000/get_pdf_urls', {
+    //       blob_name: user.email,
+    //   });
+    //   console.log(response.data.urls);
+    // } catch (error) {
+    //   console.error('Error fetching PDF URLs:', error);
+    // }
+
     setShowAddItem((pre) => !pre);
     setTimeout(() => {
       if (showAddItem) {

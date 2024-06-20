@@ -31,10 +31,10 @@ export async function uploadFileToFirebaseStorage(gmailId, file) {
       'state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        // console.log('Upload is ' + progress + '% done');
+        console.log('Upload is ' + progress + '% done');
       },
       (error) => {
-        // console.error("File upload error:", error);
+        console.error("File upload error:", error);
         reject(error);
       },
       () => {
