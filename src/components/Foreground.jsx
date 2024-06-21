@@ -30,16 +30,18 @@ function Foreground() {
   const [showAddItem, setShowAddItem] = useState(false);
 
   const handleAddItemClick = async () => {
-    // console.log("clicked");
+    console.log("clicked");
 
-    // try {
-    //   const response = await axios.post('http://localhost:5000/get_pdf_urls', {
-    //       blob_name: user.email,
-    //   });
-    //   console.log(response.data.urls);
-    // } catch (error) {
-    //   console.error('Error fetching PDF URLs:', error);
-    // }
+    try {
+      const response = await axios.post('http://localhost:5000/get_pdf_urls', {
+          blob_name: user.email,
+      });
+      console.log(response.data.urls);
+      console.log(response.data.message);
+
+    } catch (error) {
+      console.error('Error fetching PDF URLs:', error);
+    }
 
     setShowAddItem((pre) => !pre);
     setTimeout(() => {
