@@ -23,10 +23,10 @@ function Additem({ reference, setShowAddItem }) {
         setReloadKey((prevKey) => prevKey + 1);
         navigate("/foreground");
       } catch (error) {
-        // console.error("Error uploading file:", error);
+        console.error("Error uploading file:", error);
       }
     } else {
-      // console.error("Email and file are required");
+      console.error("Email and file are required");
     }
   };
 

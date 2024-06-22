@@ -33,7 +33,7 @@ function App() {
         {/* <Heroinitial/> */}
         {/* <Outlet/> */}
         {/* <Background/> */}
-        {chatarea && <Chatarea />}
+        {/* {chatarea && <Chatarea />} */}
       </div>
     </>
   );

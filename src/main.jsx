@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Foreground from "./components/Foreground.jsx";
 import Additem from "./components/AddItem/Additem.jsx";
 import Heroinitial from "./components/Heroinitial.jsx";
+import Chatarea from "./components/Chatarea.jsx";
 import { AppProvider } from "../src/context/context";
 
 const router = createBrowserRouter([
@@ -26,34 +27,14 @@ const router = createBrowserRouter([
             path: "additem",
             element: <Additem />,
           },
+          {
+            path: "chatarea",
+            element: <Chatarea />,
+          },
         ],
       },
     ],
   },
-  // {
-  //   path: "/foreground",
-  //   element: <Foreground />,
-  //   children: [
-  //     {
-  //       path: "/foreground",
-  //       element: <Heroinitial />,
-  //     },
-  //     {
-  //       path: "additem",
-  //       element: <Additem />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   path:"/foreground",
-  //   element:[<Foreground/>],
-  //   children:[
-  //     {
-  //       path:"/additem",
-  //       element:[<Additem/>],
-  //     }
-  //   ]
-  // }
 ]);
 
 
