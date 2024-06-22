@@ -78,11 +78,10 @@ function Foreground() {
             ) : (
               <MdAdd className="transform transition-transform duration-300" />
             )}
-            {/* <MdAdd /> */}
           </Link>
+            {showAddItem && <Additem setShowAddItem={setShowAddItem} reference={ref} />}
         </div>
       )}
-      {showAddItem && <Additem setShowAddItem={setShowAddItem} />}
     </>
   );
 }
