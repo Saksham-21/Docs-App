@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <>
-      <div className="w-full h-[91vh] bg-zinc-800 relative">
+      <div className="w-full h-[100vh] bg-zinc-800 relative">
         <Navbar/>
         {/* <Heroinitial/> */}
         {/* <Outlet/> */}

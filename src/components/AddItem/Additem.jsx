@@ -1,28 +1,18 @@
-import React, { useRef, useState } from "react";
-import Cards from "../Cards";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { uploadFileToFirebaseStorage } from "../../firebasesetup/setup";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/context";
 
 function Additem({ reference, setShowAddItem }) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [file, setFile] = useState("");
   const { user } = useAuth0();
   const navigate = useNavigate();
   const { setReloadKey } = useAppContext();
-  const parentRef = useRef(null);
 
   const onSubmitf = async (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("description", description);
-    // formData.append("file", file);
-    // console.log(formData);
     setShowAddItem(false);
     console.log(user.email);
     const email = user.email;
