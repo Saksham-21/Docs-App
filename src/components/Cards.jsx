@@ -29,7 +29,7 @@ function Cards({ data, reference }) {
     >
       <FaRegFileAlt size="1.5em" color="#fff" />
       <div className="mb-1 mt-4 h-auto">
-        <p className="text-lg leading-tight font-semibold">
+        <p className="text-lg leading-tight font-semibold break-words">
           {data.desc.length >30
             ? `${data.desc.substring(0,30)}...`
             : data.desc}
