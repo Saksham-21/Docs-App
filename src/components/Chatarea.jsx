@@ -44,7 +44,7 @@ function Chatarea() {
       messageInputRef.current.value = "";
       try {
         const response = await axios.post(
-          "https://16.171.250.97:80/ask_question",
+          "https://16.171.250.97:5000/ask_question",
           {
             question,
           }
