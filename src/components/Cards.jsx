@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { deleteFileFromStorage } from "../firebasesetup/setup";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppContext } from '../context/context';
-
+  
 function Cards({ data, reference }) {
   const { user } = useAuth0();
   const { setReloadKey } = useAppContext(); 
