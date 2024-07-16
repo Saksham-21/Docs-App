@@ -43,8 +43,10 @@ function Chatarea() {
       console.log(question);
       messageInputRef.current.value = "";
       try {
+        // const response = await axios.post(
+        //   "https://16.171.250.97:5000/ask_question",
         const response = await axios.post(
-          "https://16.171.250.97:5000/ask_question",
+          "https://localhost:5000/ask_question",
           {
             question,
           }
