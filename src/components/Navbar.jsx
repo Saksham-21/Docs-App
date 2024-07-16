@@ -21,7 +21,7 @@ function Navbar() {
     setLoading(true);
     try {
       // const response = await axios.post("https://16.171.250.97:5000/get_pdf_urls", {
-        const response = await axios.post("https://localhost:5000/get_pdf_urls", {
+        const response = await axios.post("http://localhost:5000/get_pdf_urls", {
         blob_name: user.email,
       });
       console.log(response.data.urls);

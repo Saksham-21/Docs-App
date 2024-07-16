@@ -46,7 +46,7 @@ function Chatarea() {
         // const response = await axios.post(
         //   "https://16.171.250.97:5000/ask_question",
         const response = await axios.post(
-          "https://localhost:5000/ask_question",
+          "http://localhost:5000/ask_question",
           {
             question,
           }
