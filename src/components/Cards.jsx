@@ -49,7 +49,7 @@ function Cards({ data, reference }) {
             className="text-lg font-semibold text-zinc-800"
             target="_blank"
           >
-            Download
+            View
           </a>
         </div>
       </div>
