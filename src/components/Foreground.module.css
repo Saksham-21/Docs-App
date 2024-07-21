@@ -1,0 +1,10 @@
+.custom-scroll{
+  -ms-overflow-style: none;
+  /* overflow: auto; */
+  scrollbar-width: none;
+  /* background-color: blue; */
+
+}
+.custom-scroll::-webkit-scrollbar {
+  display: none;
+}

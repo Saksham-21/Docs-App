@@ -3,14 +3,14 @@ import Cards from "./Cards";
 import { MdAdd } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Additem from "./AddItem/Additem";
+import styles from "./Foreground.module.css"
 import { useAppContext } from "../context/context";
 import { useAuth0 } from "@auth0/auth0-react";
 import { listFilesForEmail } from "../firebasesetup/setup";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 
 function Foreground() {
-  const { user, isAuthenticated, isLoading  } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const ref = useRef(null);
   const [files, setFiles] = useState([]);
   const { reloadKey } = useAppContext();
@@ -25,24 +25,12 @@ function Foreground() {
       fetchFiles();
       console.log(files);
     }
-  }, [reloadKey, user.email,isLoading]);
+  }, [reloadKey, user.email, isLoading]);
 
   const [showAddItem, setShowAddItem] = useState(false);
 
   const handleAddItemClick = async () => {
     console.log("+ clicked");
-
-    // try {
-    //   const response = await axios.post('http://localhost:5000/get_pdf_urls', {
-    //       blob_name: user.email,
-    //   });
-    //   console.log(response.data.urls);
-    //   console.log(response.data.message);
-
-    // } catch (error) {
-    //   console.error('Error fetching PDF URLs:', error);
-    // }
-
     setShowAddItem((pre) => !pre);
     setTimeout(() => {
       if (showAddItem) {
@@ -56,9 +44,9 @@ function Foreground() {
       {isAuthenticated && (
         <div
           ref={ref}
-          className="fixed w-full h-full  z-[4]   backdrop-blur-sm"
+          className="fixed w-full  z-[4]  h-screen backdrop-blur-sm"
         >
-          <div className="flex gap-10  flex-wrap z-[3] mt-10 ml-10 mr-10 mb-10">
+          <div className={`${styles["custom-scroll"]} flex gap-8  flex-wrap z-[3] p-10 overflow-y-auto h-[calc(100vh-9vh)]`}>
             {files.map((file, index) => (
               <div key={index} className="">
                 <Cards
@@ -68,18 +56,22 @@ function Foreground() {
               </div>
             ))}
           </div>
-          <Link
-            to="/foreground/additem"
-            onClick={handleAddItemClick}
-            className="bg-blue-600 fixed bottom-[12vh] left-[4vw] text-[8vh] rounded-full sm:left-[2vw] sm:bottom-[14vh]"
-          >
-            {showAddItem ? (
-              <MdAdd className="transform rotate-45 transition-transform duration-300" />
-            ) : (
-              <MdAdd className="transform transition-transform duration-300" />
-            )}
-          </Link>
-            {showAddItem && <Additem setShowAddItem={setShowAddItem} reference={ref} />}
+            <Link
+              to="/foreground/additem"
+              onClick={handleAddItemClick}
+              className="bg-blue-600 fixed bottom-[12vh] left-[2vw] text-[8vh] rounded-full "
+            >
+              {showAddItem ? (
+                <MdAdd className="transform rotate-45 transition-transform duration-300" />
+              ) : (
+                <MdAdd className="transform transition-transform duration-300" />
+              )}
+            </Link>
+            <div className="flex justify-center items-center">
+              {showAddItem && (
+                <Additem setShowAddItem={setShowAddItem} reference={ref} />
+              )}
+            </div>
         </div>
       )}
     </>

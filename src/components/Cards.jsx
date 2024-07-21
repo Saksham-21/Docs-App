@@ -13,19 +13,16 @@ function Cards({ data, reference }) {
   const { setReloadKey } = useAppContext(); 
   const handleDeleteClick = async (namee) => {
     try {
-      // console.log("Deleting file:", namee);
       await deleteFileFromStorage(namee,user.email);
       setReloadKey(prevKey => prevKey + 1);
-      // console.log("File deleted successfully");
     } catch (error) {
-      // console.error("Error deleting file:", error);
     }
   }
   return (
     <motion.div
       drag
       dragConstraints={reference}
-      className="text-white px-5 py-8 w-60 min-h-[50px] relative  rounded-[40px] bg-zinc-900/90 overflow-hidden flex-shrink-0"
+      className="text-white px-5 py-8 w-[17.2vw] min-h-[50px] relative  rounded-[40px] bg-zinc-900/80 overflow-hidden flex-shrink-0"
     >
       <FaRegFileAlt size="1.5em" color="#fff" />
       <div className="mb-1 mt-4 h-auto">
@@ -39,7 +36,7 @@ function Cards({ data, reference }) {
       <div className="footer bottom-0 w-full left-0 mt-3">
         <div className="flex items-center justify-between  mt-4">
           {/* <p className="text-xl">{data.filesize}</p> */}
-          <span className="w-10 h-10 bg-zinc-600 rounded-full flex justify-center items-center">
+          <span className="w-10 h-10 bg-zinc-600 rounded-full flex justify-center items-center cursor-pointer">
             <RiDeleteBin2Fill onClick={()=>handleDeleteClick(data.desc)} size="1.5em" color="#fff" />
           </span>
         </div>
