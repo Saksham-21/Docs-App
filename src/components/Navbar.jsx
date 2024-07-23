@@ -21,7 +21,7 @@ function Navbar() {
     setLoading(true);
     try {
       // const response = await axios.post("https://16.171.250.97:5000/get_pdf_urls", {
-        const response = await axios.post("http://localhost:5000/get_pdf_urls", {
+      const response = await axios.post("http://localhost:5000/get_pdf_urls", {
         blob_name: user.email,
       });
       console.log(response.data.urls);
@@ -38,28 +38,29 @@ function Navbar() {
     }
   }, [chatarea, navigate]);
   const handleGoBack = () => {
-    navigate(-1); 
+    navigate(-1);
     setChatarea(false);
-
   };
   return (
     <>
       <div className="w-full h-[9vh] z-[3] bg-zinc-900/80 backdrop-blur-sm flex  flex-row items-center">
-      {(location.pathname === "/foreground" ||
-          location.pathname === "/foreground/additem") ? (
-          <div className="text-right ml-5 text-white/80 text-[1rem] md:text-xl">
-            <Button
-              text="Chat with PDFs"
-              handler={clickhandler}
-              to={"/foreground"}
-            />
-          </div>
+        {location.pathname === "/foreground" ||
+        location.pathname === "/foreground/additem" ? (
+          <>
+            <div className="text-right ml-5 text-white/80 text-[1rem] md:text-xl">
+              <Button
+                text="Chat with PDFs"
+                handler={clickhandler}
+                to={"/foreground"}
+              />
+            </div>
+          </>
         ) : (
           location.pathname === "/foreground/chatarea" && (
             <div className="text-right ml-5 text-white/80 text-[1rem] md:text-xl">
-              <Button
-                text="Go Back"
-                handler={handleGoBack}
+              <Button 
+                text="Go Back" 
+                handler={handleGoBack} 
               />
             </div>
           )

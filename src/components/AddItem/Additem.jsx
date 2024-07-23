@@ -4,6 +4,7 @@ import { uploadFileToFirebaseStorage } from "../../firebasesetup/setup";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/context";
+import axios from "axios";
 
 function Additem({ reference, setShowAddItem }) {
   const [file, setFile] = useState("");
@@ -13,12 +14,19 @@ function Additem({ reference, setShowAddItem }) {
 
   const onSubmitf = async (e) => {
     e.preventDefault();
+    const fileName=file[0].name;
+    console.log('fileNames',fileName);
+    // const fileNames = file.map(file => file.name);
+    // const fileName=fileNames[0].text;
+    // console.log('File names:', fileNames);
     setShowAddItem(false);
     console.log(user.email);
     const email = user.email;
     if (file.length > 0 && email) {
       try {
-        const uploadPromises = file.map((filee) => uploadFileToFirebaseStorage(email, filee));
+        const uploadPromises = file.map((filee) =>
+          uploadFileToFirebaseStorage(email, filee)
+        );
         const downloadURLs = await Promise.all(uploadPromises);
         console.log("Files uploaded successfully. File URLs:", downloadURLs);
         setReloadKey((prevKey) => prevKey + 1);
@@ -28,6 +36,17 @@ function Additem({ reference, setShowAddItem }) {
       }
     } else {
       console.error("Email and files are required");
+    }
+    try {
+      const response = await axios.post("http://localhost:5000/check");
+      console.log("Successful", response);
+
+      await axios.post("http://localhost:5000/categorize", {
+        blob_name: user.email,
+        fileName:fileName
+      });
+    } catch (error) {
+      console.log("Not Successful");
     }
   };
 
@@ -44,12 +63,12 @@ function Additem({ reference, setShowAddItem }) {
         <form onSubmit={onSubmitf} className="flex flex-col gap-5 mt-5">
           <input
             type="file"
-            multiple
             placeholder="Choose file"
             className="p-2 rounded-md text-white text-center  "
             onChange={(e) => {
+              // setFile([...e.target.files]);
+              setFile(Array.from(e.target.files));
               // setFile(e.target.files[0]);
-              setFile([...e.target.files]);
             }}
           />
           <button
