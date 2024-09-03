@@ -30,7 +30,6 @@ function Foreground() {
   const [showAddItem, setShowAddItem] = useState(false);
 
   const handleAddItemClick = async () => {
-    console.log("+ clicked");
     setShowAddItem((pre) => !pre);
     setTimeout(() => {
       if (showAddItem) {
@@ -59,12 +58,14 @@ function Foreground() {
             <Link
               to="/foreground/additem"
               onClick={handleAddItemClick}
-              className="bg-blue-600 fixed bottom-[12vh] left-[2vw] text-[8vh] rounded-full "
+              className="fixed bottom-[12vh] left-[2vw] text-[8vh] rounded-full "
             >
               {showAddItem ? (
-                <MdAdd className="transform rotate-45 transition-transform duration-300" />
+                // <MdAdd className="transform rotate-45 transition-transform duration-300" />
+                <img src="/plus.png" alt="" className="h-[60px] transform rotate-45 transition-transform duration-300"/>
               ) : (
-                <MdAdd className="transform transition-transform duration-300" />
+                // <MdAdd className="transform transition-transform duration-300" />
+                <img src="/plus.png" alt="" className="h-[60px] transform transition-transform duration-300"/>
               )}
             </Link>
             <div className="flex justify-center items-center">

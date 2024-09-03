@@ -15,9 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-
-
-
 export async function uploadFileToFirebaseStorage(gmailId, file) {
   if (!gmailId || !file) {
     throw new Error("Both Gmail ID and file are required");
@@ -39,7 +36,6 @@ export async function uploadFileToFirebaseStorage(gmailId, file) {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          // console.log('File available at', downloadURL);
           resolve(downloadURL);
         });
       }
@@ -47,38 +43,11 @@ export async function uploadFileToFirebaseStorage(gmailId, file) {
   });
 }
 
-
-// export async function listFilesForEmail(emailId) {
-//   if (!emailId) {
-//     throw new Error("Email ID is required");
-//   }
-
-//   const folderRef = ref(storage, emailId);
-
-//   try {
-//     const result = await listAll(folderRef);
-//     const files = await Promise.all(result.items.map(async (itemRef) => {
-//       const downloadURL = await getDownloadURL(itemRef);
-//       return {
-//         name: itemRef.name,
-//         url: downloadURL
-//       };
-//     }));
-//     return files;
-//   } catch (error) {
-//     // console.error("Error listing files:", error);
-//     throw error;
-//   }
-// }
-
-
 export async function listFilesForEmail(emailId) {
   if (!emailId) {
     throw new Error("Email ID is required");
   }
-
   const folderRef = ref(storage, emailId);
-
   try {
     const files = await listAllFiles(folderRef);
     return files;
@@ -91,43 +60,28 @@ export async function listFilesForEmail(emailId) {
 async function listAllFiles(folderRef) {
   const result = await listAll(folderRef);
   let files = [];
-
-  for (const itemRef of result.items) {
+  const filePromises = result.items.map(async (itemRef) => {
     const downloadURL = await getDownloadURL(itemRef);
-    files.push({
+    return {
       name: itemRef.name,
       url: downloadURL
-    });
-  }
-
-  for (const prefixRef of result.prefixes) {
-    const nestedFiles = await listAllFiles(prefixRef);
-    files = files.concat(nestedFiles);
-  }
-
+    };
+  });
+  const filesWithUrls = await Promise.all(filePromises);
+  files = files.concat(filesWithUrls);
+  const nestedFolderPromises = result.prefixes.map((prefixRef) => listAllFiles(prefixRef));
+  const nestedFiles = await Promise.all(nestedFolderPromises);
+  nestedFiles.forEach((nestedFileArray) => {
+    files = files.concat(nestedFileArray);
+  });
   return files;
 }
-
-// export async function deleteFileFromStorage(fileName,emailId) {
-//   const fileRef = ref(storage, `${emailId}/${fileName}`);
-
-//   try {
-//     await deleteObject(fileRef);
-//     // console.log("File deleted successfully:", fileName);
-//   } catch (error) {
-//     // console.error("Error deleting file:", error);
-//     throw error;
-//   }
-// }
-
 
 export async function deleteFileFromStorage(fileName, emailId) {
   if (!fileName || !emailId) {
     throw new Error("File name and Email ID are required");
   }
-
   const folderRef = ref(storage, emailId);
-
   try {
     const fileRef = await findFileInNestedFolders(folderRef, fileName);
     if (fileRef) {
@@ -144,21 +98,60 @@ export async function deleteFileFromStorage(fileName, emailId) {
 
 async function findFileInNestedFolders(folderRef, fileName) {
   const result = await listAll(folderRef);
-
-  // Check for the file in the current folder
   for (const itemRef of result.items) {
     if (itemRef.name === fileName) {
       return itemRef;
     }
   }
-
-  // Recursively search in subfolders
-  for (const prefixRef of result.prefixes) {
-    const foundFileRef = await findFileInNestedFolders(prefixRef, fileName);
-    if (foundFileRef) {
-      return foundFileRef;
+  const nestedFolderPromises = result.prefixes.map((prefixRef) =>
+    findFileInNestedFolders(prefixRef, fileName)
+  );
+  const nestedResults = await Promise.all(nestedFolderPromises);
+  for (const nestedResult of nestedResults) {
+    if (nestedResult) {
+      return nestedResult;
     }
   }
-
   return null;
+}
+
+//--------------------------------------------------------------------------
+export async function listOrganizedFolders(emailId) {
+  const folderRef = ref(storage, emailId);
+  const result = await listAll(folderRef);
+  const folderNames = result.prefixes.map(folderRef => {
+    const fullPath = folderRef._location.path_;
+    const name = fullPath.split('/').pop();
+    return name;
+  });
+
+  return folderNames;
+}
+
+export async function listOrganizedFiles(folder, emailId) {
+  const folderPath = `${emailId}/${folder}`;
+  const folderRef = ref(storage, folderPath);
+  const result = await listAll(folderRef);
+  const concurrencyLimit = 5;
+  const fileChunks = chunkArray(result.items, concurrencyLimit);
+  const files = [];
+  for (const chunk of fileChunks) {
+    const chunkResults = await Promise.all(chunk.map(async (fileRef) => {
+      const fullPath = fileRef._location.path_;
+      const name = fullPath.split('/').pop();
+      const url = await getDownloadURL(fileRef);
+      return { name, url };
+    }));
+    files.push(...chunkResults);
+  }
+  console.log(files);
+  return files;
+}
+
+function chunkArray(array, size) {
+  const chunked = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunked.push(array.slice(i, i + size));
+  }
+  return chunked;
 }

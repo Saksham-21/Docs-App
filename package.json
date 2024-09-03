@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.20",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.4",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.0",

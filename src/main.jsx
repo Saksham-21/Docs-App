@@ -6,6 +6,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Foreground from "./components/Foreground.jsx";
 import Additem from "./components/AddItem/Additem.jsx";
+import Organizer from "./components/Organizer/Organizer.jsx";
+import MiniOrganizer from "./components/Organizer/MiniOrganizer.jsx"
 import Heroinitial from "./components/Heroinitial.jsx";
 import Chatarea from "./components/Chatarea.jsx";
 import { AppProvider } from "../src/context/context";
@@ -33,6 +35,16 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path:"organizer",
+        element:<Organizer/>,
+        children:[
+          {
+            path:"miniorganizer",
+            element:<MiniOrganizer/>
+          }
+        ]
+      }
     ],
   },
 ]);
